@@ -53,6 +53,7 @@ public class SignupActivity extends AppCompatActivity {
                         Toast.makeText(SignupActivity.this, "Signed up!", Toast.LENGTH_SHORT);
                         Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                 });
             }
