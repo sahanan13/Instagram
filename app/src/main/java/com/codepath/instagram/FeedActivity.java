@@ -1,16 +1,21 @@
 package com.codepath.instagram;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,5 +93,29 @@ public class FeedActivity extends AppCompatActivity {
                 swipeContainer.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.btnLogout) {
+            // forget who's logged in
+            ParseUser.logOut();
+            ParseUser currentUser = ParseUser.getCurrentUser();
+
+            // navigate backwards to Login screen
+            Intent i = new Intent(FeedActivity.this, LoginActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // this makes sure the Back button won't work
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // same as above
+            startActivity(i);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
