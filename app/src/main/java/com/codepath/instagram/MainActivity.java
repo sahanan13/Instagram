@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //queryPosts();
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,12 +98,9 @@ public class MainActivity extends AppCompatActivity {
         photoFile = getPhotoFileUri(photoFileName);
 
         // wrap File object into a content provider
-        // required for API >= 24
-        // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
         Uri fileProvider = FileProvider.getUriForFile(MainActivity.this, "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
-        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
         // So as long as the result is not null, it's safe to use the intent.
         if (intent.resolveActivity(getPackageManager()) != null) {
             // Start the image capture intent to take photo
@@ -119,17 +115,16 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                // RESIZE BITMAP, see section below
+                // Resizing bitmap
                 Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(photoFileName));
                 // by this point we have the camera photo on disk
                 Bitmap rawTakenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
-                // See BitmapScaler.java: https://gist.github.com/nesquena/3885707fd3773c09f1bb
                 Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(rawTakenImage, 40);
                 // Configure byte output stream
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 // Compress the image further
                 resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-                // Create a new file for the resized bitmap (`getPhotoFileUri` defined above)
+                // Create a new file for the resized bitmap ('getPhotoFileUri' defined above)
                 File resizedFile = getPhotoFileUri(photoFileName + "_resized");
                 try {
                     resizedFile.createNewFile();
@@ -141,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 FileOutputStream fos = null;
-                // end of resizing
 
                 // Load the taken image into a preview
                 ivPostImage.setImageBitmap(takenImage);
@@ -154,8 +148,8 @@ public class MainActivity extends AppCompatActivity {
     // Returns the File for a photo stored on disk given the fileName
     public File getPhotoFileUri(String fileName) {
         // Get safe storage directory for photos
-        // Use `getExternalFilesDir` on Context to access package-specific directories.
-        // This way, we don't need to request external read/write runtime permissions.
+        // Use getExternalFilesDir on Context to access package-specific directories.
+        // to avoid needing to request external read/write runtime permissions.
         File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
 
         // Create the storage directory if it does not exist
