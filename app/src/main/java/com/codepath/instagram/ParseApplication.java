@@ -3,6 +3,7 @@ package com.codepath.instagram;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
 
 public class ParseApplication extends Application {
 
@@ -12,6 +13,8 @@ public class ParseApplication extends Application {
         super.onCreate();
 
         // Register your parse models
+        ParseObject.registerSubclass(Post.class);
+
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("TlY3TERiJVRcNKyYklK3XjSBwmJY6UNfKuhrIFQ5")
                 .clientKey("IOdYpBK4KVS9A73L9C5Q6Qwsr4HPlgORIlNEZhTf")

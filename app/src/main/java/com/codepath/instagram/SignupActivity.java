@@ -50,7 +50,7 @@ public class SignupActivity extends AppCompatActivity {
                             // Sign up did not succeed
                             Log.e(TAG, "Issue with login", e);
                         }
-                        Toast.makeText(SignupActivity.this, "Signed up!", Toast.LENGTH_SHORT);
+                        Toast.makeText(SignupActivity.this, "Signed up!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                         startActivity(intent);
                         finish();
