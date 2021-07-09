@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private File photoFile;
     private String photoFileName = "photo.jpg";
     private Button btnFeed;
+    // Instance of the progress action-view
+    MenuItem miActionProgressItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 launchCamera();
             }
         });
-
+        //hideProgressBar();   ????
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,8 +87,10 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "There is no image!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                //showProgressBar();
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 savePost(description, currentUser, photoFile);
+                //hideProgressBar();
             }
         });
     }
@@ -205,6 +209,26 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /*// For progress indicator
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        //miActionProgressItem.setVisible(true);
+        showProgressBar();
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
+    public void showProgressBar() {
+        // Show progress item
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        miActionProgressItem.setVisible(false);
+    }*/
 
     private void queryPosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);

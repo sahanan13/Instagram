@@ -27,6 +27,8 @@ public class FeedActivity extends AppCompatActivity {
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
     private SwipeRefreshLayout swipeContainer;
+    // Instance of the progress action-view
+    MenuItem miActionProgressItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class FeedActivity extends AppCompatActivity {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                showProgressBar();
                 queryPosts();
             }
         });
@@ -91,6 +94,7 @@ public class FeedActivity extends AppCompatActivity {
                 allPosts.addAll(posts);
                 adapter.notifyDataSetChanged();
                 swipeContainer.setRefreshing(false);
+                hideProgressBar();
             }
         });
     }
@@ -117,5 +121,25 @@ public class FeedActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // For progress indicator
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        //miActionProgressItem.setVisible(true);
+        showProgressBar();
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
+    public void showProgressBar() {
+        // Show progress item
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        miActionProgressItem.setVisible(false);
     }
 }
