@@ -11,13 +11,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.instagram.Post;
-import com.codepath.instagram.PostsAdapter;
+import com.codepath.instagram.Adapters.PostsAdapter;
 import com.codepath.instagram.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -66,7 +65,7 @@ public class PostsFragment extends Fragment {
         queryPosts();
 
         // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -117,23 +116,4 @@ public class PostsFragment extends Fragment {
         });
     }
 
-    /*// For progress indicator
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        // Store instance of the menu item containing progress
-        miActionProgressItem = menu.findItem(R.id.miActionProgress);
-        //miActionProgressItem.setVisible(true);
-        showProgressBar();
-        // Return to finish
-        return super.onPrepareOptionsMenu(menu);
-    }*/
-    /*public void showProgressBar() {
-        // Show progress item
-        miActionProgressItem.setVisible(true);
-    }
-
-    public void hideProgressBar() {
-        // Hide progress item
-        miActionProgressItem.setVisible(false);
-    }*/
 }

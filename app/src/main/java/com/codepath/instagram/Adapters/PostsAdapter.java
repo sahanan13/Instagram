@@ -1,4 +1,4 @@
-package com.codepath.instagram;
+package com.codepath.instagram.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.instagram.Post;
+import com.codepath.instagram.PostDetailActivity;
+import com.codepath.instagram.R;
 import com.parse.ParseFile;
 
 import org.parceler.Parcels;
