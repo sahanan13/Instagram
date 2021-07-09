@@ -1,28 +1,36 @@
-package com.codepath.instagram;
+package com.codepath.instagram.fragments;
+
+import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
+import com.codepath.instagram.Post;
+import com.codepath.instagram.PostsAdapter;
+import com.codepath.instagram.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedActivity extends AppCompatActivity {
+public class PostsFragment extends Fragment {
 
-    private static final String TAG = "FeedActivity";
+    private static final String TAG = "PostsFragment";
     private RecyclerView rvPosts;
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
@@ -30,30 +38,40 @@ public class FeedActivity extends AppCompatActivity {
     // Instance of the progress action-view
     MenuItem miActionProgressItem;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed);
+    public PostsFragment() {
+        // Required empty public constructor
+    }
 
-        rvPosts = findViewById(R.id.rvPosts);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_posts, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        rvPosts = view.findViewById(R.id.rvPosts);
         // initialize the array that will hold posts and create a PostsAdapter
         allPosts = new ArrayList<>();
-        adapter = new PostsAdapter(this, allPosts);
+        adapter = new PostsAdapter(getContext(), allPosts);
 
         // set the adapter on the recycler view
         rvPosts.setAdapter(adapter);
         // set the layout manager on the recycler view
-        rvPosts.setLayoutManager(new LinearLayoutManager(this));
+        rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         // query posts from Parstagram
         queryPosts();
 
         // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                showProgressBar();
+                //showProgressBar();
                 queryPosts();
             }
         });
@@ -65,7 +83,7 @@ public class FeedActivity extends AppCompatActivity {
 
     }
 
-    private void queryPosts() {
+    protected void queryPosts() {
         // specify what type of data to query - Post.class
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         // include data referred by user key
@@ -94,36 +112,12 @@ public class FeedActivity extends AppCompatActivity {
                 allPosts.addAll(posts);
                 adapter.notifyDataSetChanged();
                 swipeContainer.setRefreshing(false);
-                hideProgressBar();
+                //hideProgressBar();
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.btnLogout) {
-            // forget who's logged in
-            ParseUser.logOut();
-            ParseUser currentUser = ParseUser.getCurrentUser();
-
-            // navigate backwards to Login screen
-            Intent i = new Intent(FeedActivity.this, LoginActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // this makes sure the Back button won't work
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // same as above
-            startActivity(i);
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    // For progress indicator
+    /*// For progress indicator
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Store instance of the menu item containing progress
@@ -132,8 +126,8 @@ public class FeedActivity extends AppCompatActivity {
         showProgressBar();
         // Return to finish
         return super.onPrepareOptionsMenu(menu);
-    }
-    public void showProgressBar() {
+    }*/
+    /*public void showProgressBar() {
         // Show progress item
         miActionProgressItem.setVisible(true);
     }
@@ -141,5 +135,5 @@ public class FeedActivity extends AppCompatActivity {
     public void hideProgressBar() {
         // Hide progress item
         miActionProgressItem.setVisible(false);
-    }
+    }*/
 }
