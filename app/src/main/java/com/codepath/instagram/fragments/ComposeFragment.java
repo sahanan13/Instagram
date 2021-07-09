@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.codepath.instagram.BitmapScaler;
@@ -46,11 +47,6 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ComposeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ComposeFragment extends Fragment {
 
     public static final String TAG = "ComposeFragment";
@@ -61,6 +57,9 @@ public class ComposeFragment extends Fragment {
     private Button btnSubmit;
     private File photoFile;
     private String photoFileName = "photo.jpg";
+    MainActivity mainActivity;
+    // Instance of the progress action-view
+    MenuItem miActionProgressItem;
 
 
     public ComposeFragment() {
@@ -82,6 +81,8 @@ public class ComposeFragment extends Fragment {
         btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
         ivPostImage = view.findViewById(R.id.ivPostImage);
         btnSubmit = view.findViewById(R.id.btnSubmit);
+        mainActivity = (MainActivity) getActivity();
+
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +90,6 @@ public class ComposeFragment extends Fragment {
                 launchCamera();
             }
         });
-        //hideProgressBar();   ????
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,10 +102,8 @@ public class ComposeFragment extends Fragment {
                     Toast.makeText(getContext(), "There is no image!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                //showProgressBar();
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 savePost(description, currentUser, photoFile);
-                //hideProgressBar();
             }
         });
     }
@@ -183,6 +181,7 @@ public class ComposeFragment extends Fragment {
     }
 
     private void savePost(String description, ParseUser currentUser, File photoFile) {
+        mainActivity.showProgressBar();
         Post post = new Post();
         post.setDescription(description);
         post.setImage(new ParseFile(photoFile));
@@ -197,6 +196,8 @@ public class ComposeFragment extends Fragment {
                 Log.i(TAG, "Post save was successful!!");
                 etDescription.setText("");
                 ivPostImage.setImageResource(0);
+                mainActivity.hideProgressBar();
+                mainActivity.goHome();
             }
         });
     }
@@ -218,4 +219,6 @@ public class ComposeFragment extends Fragment {
             }
         });
     }
+
+
 }

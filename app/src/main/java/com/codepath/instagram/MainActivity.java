@@ -51,24 +51,15 @@ public class MainActivity extends AppCompatActivity {
 
     final FragmentManager fragmentManager = getSupportFragmentManager();
     // Instance of the progress action-view
-    //MenuItem miActionProgressItem;
+    MenuItem miActionProgressItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //private Button btnFeed;
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        /*btnFeed = findViewById(R.id.btnFeed);
-        btnFeed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "onClick feed button");
-                Intent intent = new Intent(MainActivity.this, FeedActivity.class);
-                startActivity(intent);
-            }
-        });*/
+
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -123,16 +114,15 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*// For progress indicator
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Store instance of the menu item containing progress
         miActionProgressItem = menu.findItem(R.id.miActionProgress);
-        //miActionProgressItem.setVisible(true);
-        showProgressBar();
+
         // Return to finish
         return super.onPrepareOptionsMenu(menu);
     }
+
     public void showProgressBar() {
         // Show progress item
         miActionProgressItem.setVisible(true);
@@ -141,6 +131,11 @@ public class MainActivity extends AppCompatActivity {
     public void hideProgressBar() {
         // Hide progress item
         miActionProgressItem.setVisible(false);
-    }*/
+    }
+
+    public void goHome() {
+        fragmentManager.beginTransaction().replace(R.id.flContainer, new PostsFragment()).commit();
+        bottomNavigationView.setSelectedItemId(R.id.action_home);
+    }
 
 }
