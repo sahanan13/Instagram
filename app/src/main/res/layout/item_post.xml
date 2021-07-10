@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -20,7 +21,54 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:scaleType="centerCrop"
+        android:layout_below="@+id/tvUsername"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/heart"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/ivImage"
+        android:background="@drawable/ufi_heart"
+        tools:srcCompat="@drawable/ufi_heart"
+        android:layout_marginLeft="5dp"/>
+
+    <ImageView
+        android:id="@+id/comment"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/ivImage"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/heart"
+        android:background="@drawable/ufi_comment"
+        tools:srcCompat="@drawable/ufi_comment" />
+
+    <ImageView
+        android:id="@+id/send"
+        android:layout_width="32dp"
+        android:layout_height="29dp"
+        android:layout_below="@+id/ivImage"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="245dp"
+        android:layout_toStartOf="@+id/bookmark"
+        android:layout_toEndOf="@+id/comment"
+        android:background="@drawable/ufi_send"
+        app:srcCompat="@drawable/ufi_send" />
+
+    <ImageView
+        android:id="@+id/bookmark"
+        android:layout_width="24dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/ivImage"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="9dp"
+        android:background="@drawable/ufi_save"
+        tools:srcCompat="@drawable/ufi_save" />
 
     <TextView
         android:id="@+id/tvDescription"
@@ -29,6 +77,7 @@
         android:layout_marginBottom="8dp"
         tools:text="a description blah"
         android:textColor="#000000"
+        android:layout_below="@+id/heart"
         android:layout_marginLeft="5dp"/>
 
     <TextView
@@ -39,4 +88,12 @@
         tools:text="Created at: 1/1/1"
         android:layout_below="@+id/tvDescription"
         android:layout_marginLeft="5dp"/>
-</LinearLayout>
+
+    <!-- <ImageView
+        android:id="@+id/igLogo"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/ic_login_logo"
+        /> -->
+</RelativeLayout>

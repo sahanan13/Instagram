@@ -14,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import com.codepath.instagram.EndlessRecyclerViewScrollListener;
 import com.codepath.instagram.Post;
 import com.codepath.instagram.Adapters.PostsAdapter;
 import com.codepath.instagram.R;
@@ -36,6 +38,8 @@ public class PostsFragment extends Fragment {
     private SwipeRefreshLayout swipeContainer;
     // Instance of the progress action-view
     MenuItem miActionProgressItem;
+    private EndlessRecyclerViewScrollListener scrollListener;
+
 
     public PostsFragment() {
         // Required empty public constructor
@@ -52,7 +56,7 @@ public class PostsFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        rvPosts = view.findViewById(R.id.rvPosts);
+        rvPosts = (RecyclerView) view.findViewById(R.id.rvPosts);
         // initialize the array that will hold posts and create a PostsAdapter
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
@@ -62,7 +66,7 @@ public class PostsFragment extends Fragment {
         // set the layout manager on the recycler view
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         // query posts from Parstagram
-        queryPosts();
+        queryPosts(0);
 
         // Lookup the swipe container view
         swipeContainer = view.findViewById(R.id.swipeContainer);
@@ -71,7 +75,7 @@ public class PostsFragment extends Fragment {
             @Override
             public void onRefresh() {
                 //showProgressBar();
-                queryPosts();
+                queryPosts(0);
             }
         });
         // Configure the refreshing colors
@@ -80,13 +84,27 @@ public class PostsFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rvPosts.setLayoutManager(linearLayoutManager);
+        // Retain an instance so that you can call `resetState()` for fresh searches
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                queryPosts(allPosts.size());
+            }
+        };
+        // Adds the scroll listener to RecyclerView
+        rvPosts.addOnScrollListener(scrollListener);
     }
 
-    protected void queryPosts() {
+    protected void queryPosts(int skipNum) {
         // specify what type of data to query - Post.class
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         // include data referred by user key
         query.include(Post.KEY_USER);
+        query.setSkip(skipNum);
         // limit query to latest 20 items
         query.setLimit(20);
         // order posts by creation date (newest first)
