@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,28 +9,38 @@
     android:orientation="vertical"
     tools:context=".LoginActivity">
 
+    <ImageView
+        android:id="@+id/igLogo"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/ic_login_logo"
+        />
+
     <EditText
         android:id="@+id/etUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:hint="username"/>
+        android:layout_below="@+id/igLogo"
+        android:layout_marginTop="40dp"
+        android:padding="10dp"
+        android:hint="Username"/>
 
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:hint="password"
+        android:layout_below="@+id/etUsername"
+        android:hint="Password"
+        android:padding="10dp"
         android:inputType="textPassword" />
 
     <Button
         android:id="@+id/btnSignup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Sign Up" />
+        android:text="Sign Up"
+        android:layout_below="@+id/etPassword"
+        android:backgroundTint="#05B1EA"/>
 
-</LinearLayout>
+</RelativeLayout>

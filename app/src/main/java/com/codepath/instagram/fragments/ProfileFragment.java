@@ -1,11 +1,13 @@
 package com.codepath.instagram.fragments;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,12 +38,10 @@ public class ProfileFragment extends Fragment {
     protected List<Post> allPosts;
     private SwipeRefreshLayout swipeContainer;
     TextView tvUsername;
+    ImageView ivProfileImage;
     private ParseUser user;
 
-    public ProfileFragment() {
-    }
-
-
+    public ProfileFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +53,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         user = ParseUser.getCurrentUser();
         tvUsername = view.findViewById(R.id.tvUsername);
+        ivProfileImage = view.findViewById(R.id.ivProfileImage);
         rvPosts = view.findViewById(R.id.rvPosts);
         // initialize the array that will hold posts and create a PostsAdapter
         allPosts = new ArrayList<>();
